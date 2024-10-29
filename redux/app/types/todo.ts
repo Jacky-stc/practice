@@ -1,4 +1,5 @@
 export interface Todos{
     id:string,
-    text:string
+    text:string,
+    finish:boolean
 }

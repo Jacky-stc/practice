@@ -1,5 +1,5 @@
 import { Todos } from "@/app/types/todo"
-import { createSlice } from "@reduxjs/toolkit"
+import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 
 interface InitialState{
     todos:Todos[]
@@ -11,14 +11,20 @@ const todoSlice = createSlice({
     name:'todo',
     initialState:initialState,
     reducers:{
-        addTodo: (state, action)=>{
+        addTodo: (state:InitialState, action:PayloadAction<Todos>)=>{
             state.todos.push(action.payload)
         },
-        deleTodo: (state, action)=>{
+        deleTodo: (state:InitialState, action:PayloadAction<string>)=>{
             state.todos = state.todos.filter((todo)=>todo.id !== action.payload)
+        },
+        finishTodo: (state, action)=>{
+            const todo = state.todos.find((todo)=>todo.id === action.payload)
+            if(todo){
+                todo.finish = !todo.finish
+            }
         }
     }
 })
 
-export const {addTodo, deleTodo} = todoSlice.actions
+export const {addTodo, deleTodo, finishTodo} = todoSlice.actions
 export default todoSlice.reducer
